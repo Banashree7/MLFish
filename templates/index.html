@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fish Disease Detection - Image Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.2.0/remixicon.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center">
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav container">
+           <a href="#" class="nav__logo">Logo</a>
+           <div class="nav__menu" id="nav-menu">
+              <ul class="nav__list">
+                 <li class="nav__item">
+                    <a href="#" class="nav__link">
+                       <i class="ri-arrow-right-up-line"></i>
+                       <span>Home</span>
+                    </a>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/about" class="nav__link">
+                       <i class="ri-arrow-right-up-line"></i>
+                       <span>About Us</span>
+                    </a>
+                 </li>
+        
+                 <li class="nav__item">
+                    <a href="/contact" class="nav__link">
+                       <i class="ri-arrow-right-up-line"></i>
+                       <span>Contact</span>
+                    </a>
+                 </li>
+              </ul>
+              <!-- Close button -->
+              <div class="nav__close" id="nav-close">
+                 <i class="ri-close-large-line"></i>
+              </div>
+              <div class="nav__social">
+                 <a href="https://www.instagram.com/" target="_blank" class="nav__social-link">
+                    <i class="ri-instagram-line"></i>
+                 </a>
+                 <a href="https://github.com/" target="_blank" class="nav__social-link">
+                    <i class="ri-github-line"></i>
+                 </a>
+                 <a href="https://dribbble.com/" target="_blank" class="nav__social-link">
+                    <i class="ri-dribbble-line"></i>
+                 </a>
+                 <a href="https://www.linkedin.com/" target="_blank" class="nav__social-link">
+                    <i class="ri-linkedin-box-line"></i>
+                 </a>
+              </div>
+           </div>
+           <!-- Toggle button -->
+           <div class="nav__toggle" id="nav-toggle">
+              <i class="ri-menu-line"></i>
+           </div>
+        </nav>
+     </header>
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto mt-8 px-4">
+        <!-- Real-Time Statistics -->
+        <section class="mb-8">
+            <h2 id="realTimeStatsTitle" class="text-2xl font-semibold text-gray-800 mb-4">Real-Time Statistics</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                    <h3 class="text-lg font-bold text-gray-600">Fish Analyzed Today</h3>
+                    <p class="text-2xl text-blue-600 font-bold">20</p>
+                </div>
+                <div class="bg-white shadow-md rounded-lg p-4 text-center">
+                    <h3 class="text-lg font-bold text-gray-600">Disease Alerts</h3>
+                    <p class="text-2xl text-red-600 font-bold">5</p>
+                </div>
+            </div>
+        </section>
+        <!-- Latest Notifications -->
+        <section class="mb-8">
+            <h2 id="latestNotificationsTitle" class="text-2xl font-semibold text-gray-800 mb-4">Latest Notifications</h2>
+            <ul class="bg-white shadow-md rounded-lg divide-y divide-gray-200">
+                <li class="p-4">Disease detected: <span class="font-semibold">Fin Rot</span> on <span class="text-gray-600">2025-01-05</span></li>
+                <li class="p-4">No disease detected in recent upload on <span class="text-gray-600">2025-01-04</span></li>
+                <li class="p-4">Water quality check: <span class="font-semibold">Optimal</span> on <span class="text-gray-600">2025-01-03</span></li>
+            </ul>
+        </section>
+        <h2 id="uploadTitle" class="text-3xl font-semibold text-gray-800 mb-4">Upload Fish Image</h2>
+        <p id="uploadDescription" class="text-gray-600 mb-6">Upload an image of the fish to detect any diseases and get actionable insights.</p>
+        <!-- Upload Section -->
+        <div class="bg-white shadow-md rounded-lg p-6">
+            <form id="uploadForm" class="space-y-4">
+                <div class="flex flex-col items-center space-y-4">
+                    <!-- File Upload -->
+                    <div class="flex justify-center items-center border-2 border-dashed border-gray-300 rounded-lg py-10 bg-gray-50 w-full">
+                        <input type="file" id="imageUpload" class="hidden" accept="image/*">
+                        <label for="imageUpload" class="cursor-pointer text-blue-600 hover:underline">Click to upload or drag and drop an image here</label>
+                    </div>
+                    <!-- Take Photo -->
+                    <div class="flex justify-center items-center w-full">
+                        <button type="button" id="takePhoto" class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">Take a Photo</button>
+                    </div>
+                    <!-- Camera Feed -->
+                    <div id="cameraWrapper" class="hidden w-full">
+                        <video id="video" autoplay class="border rounded-lg w-full"></video>
+                        <button id="capturePhoto" class="mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700">Capture Photo</button>
+                    </div>
+                    <!-- Captured Photo -->
+                    <canvas id="photoCanvas" class="hidden border rounded-lg"></canvas>
+                </div>
+                <!-- Language Selection -->
+                <div class="flex flex-col space-y-2">
+                    <label for="language" class="text-gray-700 font-semibold">Select Language:</label>
+                    <select id="language" class="w-full border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="as">Assamese</option>
+                        <option value="bn">Bengali</option>
+                        <option value="br">Boro</option>
+                    </select>
+                </div>
+                <!-- Notification Preferences -->
+                <div class="flex flex-col space-y-2">
+                    <label class="text-gray-700 font-semibold">Notification Preferences:</label>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="emailNotification" class="rounded border-gray-300 focus:ring-blue-500">
+                        <label for="emailNotification" class="text-gray-600">Email</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="smsNotification" class="rounded border-gray-300 focus:ring-blue-500">
+                        <label for="smsNotification" class="text-gray-600">SMS</label>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="pushNotification" class="rounded border-gray-300 focus:ring-blue-500">
+                        <label for="pushNotification" class="text-gray-600">Push Notification</label>
+                    </div>
+                </div>
+                <button type="submit" id="submitButton" class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">Submit</button>
+            </form>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-gray-800 w-full py-4 text-center text-white mt-8">
+        <p>&copy; 2025 Fish Disease Detection. All rights reserved.</p>
+    </footer>
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
